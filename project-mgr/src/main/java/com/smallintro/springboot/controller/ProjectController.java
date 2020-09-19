@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.smallintro.springboot.entity.Department;
 import com.smallintro.springboot.entity.Project;
 import com.smallintro.springboot.exception.RecordNotFoundException;
+import com.smallintro.springboot.service.DepartmentService;
 import com.smallintro.springboot.service.ProjectService;
 import com.smallintro.springboot.utils.ProjectConstants;
 
@@ -28,6 +30,9 @@ public class ProjectController {
 
 	@Autowired
 	ProjectService projectService;
+
+	@Autowired
+	DepartmentService deptService;
 
 	@GetMapping
 	public List<Project> getProjects() {
@@ -43,14 +48,20 @@ public class ProjectController {
 		}
 	}
 
-	@PostMapping
-	public String addProject(@RequestBody Project proj) {
+	@PostMapping(value = "/{deptId}/project")
+	public Project addProject(@PathVariable Long deptId, @RequestBody Project proj) {
+		Department dept = deptService.getDepartmentById(deptId);
+		if (null == dept) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+					"No department found with department Id: " + deptId);
+		}
 		if (projectService.isProjectExistsByName(proj.getProjectName())) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
 					"Project with name " + proj.getProjectName() + " already exists");
 		}
-		projectService.saveProject(proj);
-		return ProjectConstants.OPERATION_SUCCESS;
+		proj.setDepartment(dept);
+		return projectService.saveProject(proj);
+
 	}
 
 	@PutMapping(value = "/{projectCode}")

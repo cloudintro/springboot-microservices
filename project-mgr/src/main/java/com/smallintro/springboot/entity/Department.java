@@ -8,19 +8,25 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.springframework.hateoas.RepresentationModel;
+
 import io.swagger.annotations.ApiModel;
 
-@ApiModel("This model is for project information")
+@ApiModel("This model is for department information")
 @Entity
 @Table(name = "tb_department")
-public class Department {
+public class Department extends RepresentationModel<Department>{
 
 	@Id
 	@GeneratedValue
 	private Long deptId;
 	private String deptName;
-	@OneToMany
+	@OneToMany(mappedBy="department")
 	private List<Project> projects;
+
+	public Department() {
+		super();
+	}
 
 	public Long getDeptId() {
 		return deptId;
