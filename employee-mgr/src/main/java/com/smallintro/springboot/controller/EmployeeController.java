@@ -5,6 +5,7 @@ import java.util.List;
 import javax.validation.constraints.Min;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,13 +15,18 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.smallintro.springboot.entity.Employee;
+import com.smallintro.springboot.entity.EmployeeMmDto;
+import com.smallintro.springboot.entity.EmployeeMsDto;
+import com.smallintro.springboot.exception.RecordAlreadyExistsException;
+import com.smallintro.springboot.exception.RecordNotFoundException;
 import com.smallintro.springboot.service.EmployeeService;
 
 import io.swagger.annotations.Api;
 
-@Api(tags="Employee management APIs",value="Employee Controller")
+@Api(tags = "Employee management APIs", value = "Employee Controller")
 @RestController
 @RequestMapping("employee")
 public class EmployeeController {
@@ -33,26 +39,48 @@ public class EmployeeController {
 		return empService.getEmployees();
 	}
 
-	@GetMapping(value = "/{empId}",produces = MediaType.APPLICATION_JSON_VALUE)
-	public Employee getEmpInfo(@PathVariable String empId) {
-		return empService.getEmpInfo(empId);
+	@GetMapping(value = "/{empId}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public Employee getEmpInfoById(@PathVariable String empId) {
+		return empService.getEmpInfoById(empId);
+	}
+
+	@GetMapping(value = "/{empId}/modelmapper", produces = MediaType.APPLICATION_JSON_VALUE)
+	public EmployeeMmDto getEmpInfoModelMapper(@PathVariable String empId) {
+		try {
+			return empService.getEmpInfoModelMapper(empId);
+		} catch (RecordNotFoundException e) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+		}
+	}
+	
+	@GetMapping(value = "/{empId}/mapstruct", produces = MediaType.APPLICATION_JSON_VALUE)
+	public EmployeeMsDto getEmpInfoMapStruct(@PathVariable String empId) {
+		try {
+			return empService.getEmpInfoMapStruct(empId);
+		} catch (RecordNotFoundException e) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+		}
 	}
 
 	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-	public String addEmployee(@RequestBody Employee emp) {
-	
+	public Employee addEmployee(@RequestBody Employee emp) {
+
+		try {
 			return empService.addEmployee(emp);
+		} catch (RecordAlreadyExistsException e) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+		}
 
 	}
 
-	@PutMapping(value="/{empId}",produces = MediaType.APPLICATION_JSON_VALUE)
-	public String updateEmployee(@PathVariable Integer empId,@RequestBody Employee emp) {
-			return empService.updateEmployee(empId, emp);
+	@PutMapping(value = "/{empId}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public String updateEmployee(@PathVariable String empId, @RequestBody Employee emp) {
+		return empService.updateEmployee(empId, emp);
 	}
 
-	@DeleteMapping(value="/{empId}")
-	public String delEmployee(@Min(1) @PathVariable Integer empId) {
-			return empService.delEmployee(empId);
+	@DeleteMapping(value = "/{empId}")
+	public String delEmployee(@Min(1) @PathVariable String empId) {
+		return empService.delEmployee(empId);
 	}
 
 }
