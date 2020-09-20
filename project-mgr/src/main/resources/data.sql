@@ -1,3 +1,17 @@
 insert into tb_department (dept_name, dept_id) values ('Cloud BL', 101);
---insert into tb_project (department_dept_id, project_name, project_status, start_date, project_code) values (101, 'Spring Boot Cloud', 'Started', sysdate, '101001')
+insert into tb_department (dept_name, dept_id) values ('Narketing', 102);
 commit;
+
+/*
+
+{
+  "budget": 1000000,
+  "description": "First R&D project",
+  "projectCode": 0,
+  "projectName": "Cloud Connect",
+  "projectStatus": "Analysis",
+  "startDate": "2020-09-20",
+  "department":{"deptId":101}
+}
+
+*/

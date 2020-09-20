@@ -10,6 +10,8 @@ import javax.persistence.Table;
 
 import org.springframework.hateoas.RepresentationModel;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
 import io.swagger.annotations.ApiModel;
 
 @ApiModel("This model is for department information")
@@ -20,6 +22,7 @@ public class Department extends RepresentationModel<Department>{
 	@Id
 	@GeneratedValue
 	private Long deptId;
+	@JsonView(Views.External.class)
 	private String deptName;
 	@OneToMany(mappedBy="department")
 	private List<Project> projects;

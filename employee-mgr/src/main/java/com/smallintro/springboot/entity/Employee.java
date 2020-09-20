@@ -17,18 +17,21 @@ import io.swagger.annotations.ApiModelProperty;
 @ApiModel("This model is for employee information")
 @Entity
 @Table(name = "tb_employee")
-public class Employee extends RepresentationModel<Employee>{
+public class Employee extends RepresentationModel<Employee> {
 
 	@ApiModelProperty(notes = "Employee ID should have first name initial+ Gender initial + YYYYMMDDHHMM", required = true, example = "SM201104180925", position = 1)
 	@Id
 	private String empId;
 	private String empName;
 	private Integer projectCode;
-	private String eMailId;
+	private String emailId;
+	private String role;
 	private Date joiningDate;
 
 	@ManyToMany(mappedBy = "employees")
 	private List<Technology> technologies = new ArrayList<Technology>();
+
+	private String mgrId;
 
 	public String getEmpId() {
 		return empId;
@@ -54,12 +57,20 @@ public class Employee extends RepresentationModel<Employee>{
 		this.projectCode = projectCode;
 	}
 
-	public String geteMailId() {
-		return eMailId;
+	public String getEmailId() {
+		return emailId;
 	}
 
-	public void seteMailId(String eMailId) {
-		this.eMailId = eMailId;
+	public void setEmailId(String emailId) {
+		this.emailId = emailId;
+	}
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
 	}
 
 	public Date getJoiningDate() {
@@ -68,6 +79,14 @@ public class Employee extends RepresentationModel<Employee>{
 
 	public void setJoiningDate(Date joiningDate) {
 		this.joiningDate = joiningDate;
+	}
+
+	public String getMgrId() {
+		return mgrId;
+	}
+
+	public void setMgrId(String mgrId) {
+		this.mgrId = mgrId;
 	}
 
 	public List<Technology> getTechnologies() {

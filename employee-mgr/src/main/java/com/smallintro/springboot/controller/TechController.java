@@ -1,9 +1,14 @@
 package com.smallintro.springboot.controller;
 
 import java.util.List;
+import java.util.Set;
+
+import javax.validation.constraints.Min;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.http.converter.json.MappingJacksonValue;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.smallintro.springboot.entity.Technology;
@@ -23,23 +29,31 @@ import io.swagger.annotations.ApiParam;
 @Api(tags = "Technology management APIs", value = "Technology Controller")
 @RestController
 @RequestMapping("technology")
+@Validated
 public class TechController {
 
 	@Autowired
 	TechService techService;
 
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-	public List<Technology> getTechnologys() {
-		return techService.getTechnologys();
+	public List<Technology> getTechnologies() {
+		return techService.getTechnologies();
 	}
 
 	@GetMapping(value = "/{techName}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public Technology getTechnologyInfo(@ApiParam(value = "Technology name") @PathVariable String techName) {
-		return techService.getTechnologyInfo(techName);
+	public MappingJacksonValue getTechnologyByName(@ApiParam(value = "Technology name") @PathVariable String techName,
+			@RequestParam Set<String> fields) {
+		return techService.getTechnologyByName(techName, fields);
+	}
+
+	@GetMapping(value = "/id/{techId}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public MappingJacksonValue getTechnologyById(@Min(1) @PathVariable Integer techId) {
+
+		return techService.getTechnologyById(techId);
 	}
 
 	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-	public String addTech(@RequestBody List<Technology> techList) {
+	public List<Technology> addTech(@RequestBody List<Technology> techList) {
 		return techService.addTech(techList);
 
 	}
