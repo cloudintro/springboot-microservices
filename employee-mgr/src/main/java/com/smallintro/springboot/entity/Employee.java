@@ -9,7 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.hateoas.RepresentationModel;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -17,7 +17,7 @@ import io.swagger.annotations.ApiModelProperty;
 @ApiModel("This model is for employee information")
 @Entity
 @Table(name = "tb_employee")
-public class Employee {
+public class Employee extends RepresentationModel<Employee>{
 
 	@ApiModelProperty(notes = "Employee ID should have first name initial+ Gender initial + YYYYMMDDHHMM", required = true, example = "SM201104180925", position = 1)
 	@Id
@@ -27,9 +27,8 @@ public class Employee {
 	private String eMailId;
 	private Date joiningDate;
 
-	@ManyToMany
-	@JsonIgnore
-	private List<Technology> technology = new ArrayList<Technology>();
+	@ManyToMany(mappedBy = "employees")
+	private List<Technology> technologies = new ArrayList<Technology>();
 
 	public String getEmpId() {
 		return empId;
@@ -47,11 +46,11 @@ public class Employee {
 		this.empName = empName;
 	}
 
-	public Integer getprojectCode() {
+	public Integer getProjectCode() {
 		return projectCode;
 	}
 
-	public void setprojectCode(Integer projectCode) {
+	public void setProjectCode(Integer projectCode) {
 		this.projectCode = projectCode;
 	}
 
@@ -71,12 +70,12 @@ public class Employee {
 		this.joiningDate = joiningDate;
 	}
 
-	public List<Technology> getTechnology() {
-		return technology;
+	public List<Technology> getTechnologies() {
+		return technologies;
 	}
 
-	public void setTechnology(List<Technology> technology) {
-		this.technology = technology;
+	public void setTechnologies(List<Technology> technologies) {
+		this.technologies = technologies;
 	}
 
 }

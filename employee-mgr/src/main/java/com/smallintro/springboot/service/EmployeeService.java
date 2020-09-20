@@ -5,11 +5,13 @@ import java.util.List;
 import javax.validation.constraints.Min;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.smallintro.springboot.entity.Employee;
 import com.smallintro.springboot.repository.EmployeeRepo;
 import com.smallintro.springboot.utils.ProjectConstants;
 
+@Service
 public class EmployeeService {
 
 	@Autowired

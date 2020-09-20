@@ -28,8 +28,8 @@ public class ProjectService {
 		return project;
 	}
 
-	public void saveProject(Project proj) {
-			projRepo.save(proj);
+	public Project saveProject(Project proj) {
+			return projRepo.save(proj);
 
 	}
 
