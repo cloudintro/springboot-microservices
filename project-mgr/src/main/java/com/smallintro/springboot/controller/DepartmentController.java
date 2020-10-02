@@ -28,7 +28,7 @@ import io.swagger.annotations.Api;
 public class DepartmentController {
 
 	@Autowired
-	DepartmentService deptService;
+	private DepartmentService deptService;
 
 	@GetMapping(value = "/{deptName}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public EntityModel<Department> getDepartmentByName(@PathVariable String deptName) {

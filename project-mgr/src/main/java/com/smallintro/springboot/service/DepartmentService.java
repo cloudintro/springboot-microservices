@@ -13,7 +13,7 @@ import com.smallintro.springboot.repository.DepartmentRepo;
 public class DepartmentService {
 
 	@Autowired
-	DepartmentRepo deptRepo;
+	private DepartmentRepo deptRepo;
 	
 	public Department getDepartmentById(Long deptId) {
 
