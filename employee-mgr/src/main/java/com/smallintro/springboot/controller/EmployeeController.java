@@ -32,7 +32,7 @@ import io.swagger.annotations.Api;
 public class EmployeeController {
 
 	@Autowired
-	EmployeeService empService;
+	private EmployeeService empService;
 
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<Employee> getEmployees() {

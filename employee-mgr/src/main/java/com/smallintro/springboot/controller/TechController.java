@@ -33,7 +33,7 @@ import io.swagger.annotations.ApiParam;
 public class TechController {
 
 	@Autowired
-	TechService techService;
+	private TechService techService;
 
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<Technology> getTechnologies() {

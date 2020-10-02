@@ -32,10 +32,10 @@ import io.swagger.annotations.Api;
 public class ProjectController {
 
 	@Autowired
-	ProjectService projectService;
+	private ProjectService projectService;
 
 	@Autowired
-	DepartmentService deptService;
+	private DepartmentService deptService;
 
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<Project> getProjects() {

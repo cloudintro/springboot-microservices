@@ -23,7 +23,7 @@ import com.smallintro.springboot.repository.TechRepo;
 public class TechService {
 
 	@Autowired
-	TechRepo techRepo;
+	private TechRepo techRepo;
 
 	public List<Technology> getTechnologies() {
 		return techRepo.findAll();

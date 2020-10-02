@@ -29,7 +29,7 @@ public class SwaggerConfig {
 				.title("Small Into to Spring Boot")
 				.description("Demo Spring Boot Application's API")
 				.version("v2.0")
-				.contact(new Contact("Sushil Prasad","https://smallintro.com",""))
+				.contact(new Contact("Sushil Prasad","https://smallintro.github.io",""))
 				.license("License 2.0")
 				.licenseUrl("https://github.com/smallintro/spring-microservice/LICENSE")
 				.build();
