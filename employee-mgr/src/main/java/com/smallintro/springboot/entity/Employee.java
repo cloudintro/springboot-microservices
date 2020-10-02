@@ -90,7 +90,16 @@ public class Employee extends RepresentationModel<Employee> {
 	}
 
 	public List<Technology> getTechnologies() {
-		return technologies;
+
+		List<Technology> techList = new ArrayList<Technology>();
+
+		for (Technology tech : technologies) {
+
+			techList.add(new Technology(tech.getTechId(), tech.getTechName()));
+
+		}
+
+		return techList;
 	}
 
 	public void setTechnologies(List<Technology> technologies) {

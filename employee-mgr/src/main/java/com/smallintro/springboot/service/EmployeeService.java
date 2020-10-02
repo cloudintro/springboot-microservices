@@ -26,15 +26,20 @@ public class EmployeeService {
 	@Autowired
 	private ModelMapper modelMapper;
 
-	//@Autowired
+	// TODO Failed to create bean
+	// @Autowired
 	private EmployeeMapper empMapper;
 
 	public List<Employee> getEmployees() {
 		return empRepo.findAll();
 	}
 
-	public Employee getEmpInfoById(String empId) {
-		return empRepo.findByEmpId(empId);
+	public Employee getEmpInfoById(String empId) throws RecordNotFoundException {
+		Employee emp = empRepo.findByEmpId(empId);
+		if (null == emp) {
+			throw new RecordNotFoundException("Employee with empId " + empId + " not found");
+		}
+		return emp;
 	}
 
 	public Employee addEmployee(Employee emp) throws RecordAlreadyExistsException {
@@ -84,5 +89,6 @@ public class EmployeeService {
 		EmployeeMsDto empMsDto = empMapper.employeeToEmployeeMsDto(emp);
 		return empMsDto;
 	}
+
 
 }

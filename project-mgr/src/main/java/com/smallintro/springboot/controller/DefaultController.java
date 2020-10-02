@@ -14,8 +14,9 @@ import com.smallintro.springboot.utils.ApplicationUtils;
 @RequestMapping("hello")
 public class DefaultController {
 
-	@Value("${spring.application.name}")
-	private String applicationName;
+	// TODO check for the reading list using @Value
+	//@Value("${spring.application.name}")
+	private String configServer = "localhost:9081";
 
 	@Autowired
 	private Environment env;
@@ -25,8 +26,9 @@ public class DefaultController {
 
 	@GetMapping
 	public String getHealthStatus(@RequestHeader(name = "Accept-Language", required = false) String locale) {
-		return appUtils.getI18nMessage("message.hello.world", locale) + " Welcome to " + applicationName + ". I am your "
-				+ env.getProperty("info.app.name");
+		return appUtils.getI18nMessage("message.hello.world", locale) + " Welcome to "
+				+ env.getProperty(("spring.application.name"))
+				+ ". Configuration for this service is managed by config-server running at " + configServer;
 	}
 
 }
