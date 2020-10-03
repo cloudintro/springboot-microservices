@@ -21,3 +21,28 @@ eureka:
   client:
     service-url:
       defaultZone: http://localhost:8761/eureka
+      
+#Actuator
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+  matrics:
+    export: 
+      jmx:
+        enabled: true
+
+#Spring-boot admin
+spring:
+  boot:
+    admin:
+      client:
+        url: http://127.0.0.1:9080
+        instance:
+          metadata:
+            tags: 
+              environment: dev
