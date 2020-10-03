@@ -17,25 +17,25 @@ import io.swagger.annotations.ApiModel;
 @ApiModel("This model is for project information")
 @Entity
 @Table(name = "tb_project")
-public class Project extends RepresentationModel<Project>{
+public class Project extends RepresentationModel<Project> {
 
 	@Id
 	@GeneratedValue
 	@JsonView(Views.External.class)
 	private Integer projectCode;
-	
+
 	@JsonView(Views.External.class)
 	private String projectName;
-	
+
 	@JsonView(Views.Internal.class)
 	private Date startDate;
-	
+
 	@JsonView(Views.Internal.class)
 	private String projectStatus;
-	
+
 	@JsonView(Views.Internal.class)
 	private Long budget;
-	
+
 	@JsonView(Views.External.class)
 	private String description;
 
@@ -43,8 +43,12 @@ public class Project extends RepresentationModel<Project>{
 	@JsonView(Views.External.class)
 	private Department department;
 
-	
-	
+	public Project(Integer projectCode, String projectName) {
+		super();
+		this.projectCode = projectCode;
+		this.projectName = projectName;
+	}
+
 	public Project() {
 		super();
 	}

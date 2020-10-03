@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    config:
+      uri: 
+        - http://localhost:9081
+        
+zuul:
+  prefix: /api
+  routes:
+    employee-service:
+      path: /employee-service/**
+      service-id: employee-service
+    project-service:
+      path: /project-service/**
+      service-id: project-service
+      
+#Eureka
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka

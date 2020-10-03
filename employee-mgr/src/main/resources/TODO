@@ -1,7 +1,0 @@
-1) Entity and request validation
-2) Define column name and property
-3) Test ManyToMany + Add Support for HATEOAS
-4) Add i18n
-5) Add DTOs and filters
-6) Implement versioning and content negotiation
-

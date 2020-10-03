@@ -10,17 +10,19 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.smallintro</groupId>
-	<artifactId>project-mgr</artifactId>
+	<artifactId>project-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>project-mgr</name>
+	<name>project-service</name>
 	<description>Project Manager Service using Spring Boot</description>
 
 	<properties>
 		<java.version>1.8</java.version>
 		<spring-boot-admin.version>2.3.0</spring-boot-admin.version>
+		<spring-cloud.version>Hoxton.SR8</spring-cloud.version>
 	</properties>
 
 	<dependencies>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
@@ -91,6 +93,14 @@
 			<groupId>io.micrometer</groupId>
 			<artifactId>micrometer-registry-jmx</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-config</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -116,6 +126,13 @@
 				<groupId>de.codecentric</groupId>
 				<artifactId>spring-boot-admin-dependencies</artifactId>
 				<version>${spring-boot-admin.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>${spring-cloud.version}</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>

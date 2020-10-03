@@ -1,5 +1,6 @@
 package com.smallintro.springboot.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -17,14 +18,14 @@ import io.swagger.annotations.ApiModel;
 @ApiModel("This model is for department information")
 @Entity
 @Table(name = "tb_department")
-public class Department extends RepresentationModel<Department>{
+public class Department extends RepresentationModel<Department> {
 
 	@Id
 	@GeneratedValue
 	private Long deptId;
 	@JsonView(Views.External.class)
 	private String deptName;
-	@OneToMany(mappedBy="department")
+	@OneToMany(mappedBy = "department")
 	private List<Project> projects;
 
 	public Department() {
@@ -48,7 +49,16 @@ public class Department extends RepresentationModel<Department>{
 	}
 
 	public List<Project> getProjects() {
-		return projects;
+
+		List<Project> projectList = new ArrayList<Project>();
+
+		for (Project proj : projects) {
+
+			projectList.add(new Project(proj.getProjectCode(), proj.getProjectName()));
+
+		}
+
+		return projectList;
 	}
 
 	public void setProjects(List<Project> projects) {

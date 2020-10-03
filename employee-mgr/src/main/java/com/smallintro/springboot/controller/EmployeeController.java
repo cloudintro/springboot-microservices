@@ -7,6 +7,7 @@ import javax.validation.constraints.Min;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,12 +18,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.smallintro.springboot.entity.EmpProject;
 import com.smallintro.springboot.entity.Employee;
 import com.smallintro.springboot.entity.EmployeeMmDto;
 import com.smallintro.springboot.entity.EmployeeMsDto;
+import com.smallintro.springboot.entity.Project;
 import com.smallintro.springboot.exception.RecordAlreadyExistsException;
 import com.smallintro.springboot.exception.RecordNotFoundException;
 import com.smallintro.springboot.service.EmployeeService;
+import com.smallintro.springboot.service.ProjectService;
 
 import io.swagger.annotations.Api;
 
@@ -34,6 +38,12 @@ public class EmployeeController {
 	@Autowired
 	private EmployeeService empService;
 
+	//@Autowired
+	//private RestTemplate restTemplate;
+
+	@Autowired
+	private ProjectService projectService;
+
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<Employee> getEmployees() {
 		return empService.getEmployees();
@@ -41,22 +51,8 @@ public class EmployeeController {
 
 	@GetMapping(value = "/{empId}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public Employee getEmpInfoById(@PathVariable String empId) {
-		return empService.getEmpInfoById(empId);
-	}
-
-	@GetMapping(value = "/{empId}/modelmapper", produces = MediaType.APPLICATION_JSON_VALUE)
-	public EmployeeMmDto getEmpInfoModelMapper(@PathVariable String empId) {
 		try {
-			return empService.getEmpInfoModelMapper(empId);
-		} catch (RecordNotFoundException e) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
-		}
-	}
-	
-	@GetMapping(value = "/{empId}/mapstruct", produces = MediaType.APPLICATION_JSON_VALUE)
-	public EmployeeMsDto getEmpInfoMapStruct(@PathVariable String empId) {
-		try {
-			return empService.getEmpInfoMapStruct(empId);
+			return empService.getEmpInfoById(empId);
 		} catch (RecordNotFoundException e) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
 		}
@@ -83,4 +79,43 @@ public class EmployeeController {
 		return empService.delEmployee(empId);
 	}
 
+	@GetMapping(value = "/{empId}/modelmapper", produces = MediaType.APPLICATION_JSON_VALUE)
+	public EmployeeMmDto getEmpInfoModelMapper(@PathVariable String empId) {
+		try {
+			return empService.getEmpInfoModelMapper(empId);
+		} catch (RecordNotFoundException e) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+		}
+	}
+
+	@GetMapping(value = "/{empId}/mapstruct", produces = MediaType.APPLICATION_JSON_VALUE)
+	public EmployeeMsDto getEmpInfoMapStruct(@PathVariable String empId) {
+		try {
+			return empService.getEmpInfoMapStruct(empId);
+		} catch (RecordNotFoundException e) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+		}
+	}
+
+	@GetMapping(value = "/{empId}/project", produces = MediaType.APPLICATION_JSON_VALUE)
+	public EmpProject getEmpProject(@PathVariable String empId) {
+		try {
+
+			Employee emp = empService.getEmpInfoById(empId);
+
+			/*
+			 * ResponseEntity<Project> project = restTemplate.exchange(
+			 * "http://localhost:8082/project/" + emp.getProjectCode() + "/external",
+			 * HttpMethod.GET, null, new ParameterizedTypeReference<Project>() { });
+			 */
+
+			ResponseEntity<Project> project = projectService.getProjectByProjectCode(emp.getProjectCode());
+
+			return new EmpProject(emp, project.getBody());
+		} catch (RecordNotFoundException e) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+		} catch (Exception e) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+		}
+	}
 }
