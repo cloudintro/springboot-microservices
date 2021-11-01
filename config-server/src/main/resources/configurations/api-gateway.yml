@@ -5,7 +5,15 @@ spring:
     config:
       uri: 
         - http://localhost:9081
-        
+  #Spring-boot admin
+  boot:
+    admin:
+      client:
+        url: http://127.0.0.1:9080
+        instance:
+          metadata:
+            tags:
+              environment: dev
 zuul:
   prefix: /api
   routes:
@@ -36,13 +44,4 @@ management:
       jmx:
         enabled: true
 
-#Spring-boot admin
-spring:
-  boot:
-    admin:
-      client:
-        url: http://127.0.0.1:9080
-        instance:
-          metadata:
-            tags: 
-              environment: dev
+
